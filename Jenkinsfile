@@ -2,37 +2,29 @@ pipeline {
     agent any
 
     stages {
-        stage('Hello') {
-            steps {
-                echo 'Hello World'
-                echo 'haha'
-            }
-        }
-        stage('run tests') {
+        stage('build_packages') {
             parallel {
-                stage('test1') {
+                stage('build_x86_64') {
                     agent {
                         label "gabriel"
                     }
                     steps {
-                        echo 'Hello World1'
-                        echo "\$(hostname)"
-                        echo "\$(id)"
-                        sh '''#!/bin/bash
-                            echo "$(hostname) $(id)"
+                        sh "podman pull docker.io/rockylinux/rockylinux:8"
+                        sh '''
+                            cat << EFO > Dockerfile
+                            FROM docker.io/rockylinux/rockylinux:8
+                            RUN dnf install 'dnf-command(config-manager)'
+                            RUN dnf install make rpm-build genisoimage xz xz-devel automake autoconf python36 bzip2-devel openssl-devel zlib-devel readline-devel pam-devel perl-ExtUtils-MakeMaker grub2-tools-extra grub2-efi-x64-modules gcc mariadb mariadb-devel dnf-plugins-core curl-devel net-snmp-devel -y
+                            RUN dnf config-manager --set-enabled PowerTools
+                            RUN dnf install freeipmi-devel -y
+                            RUN dnf groupinstall 'Development Tools' -y
+                            RUN 
+                            EOF
                         '''
+                        sh "podman images"
+                        sh "podman run -it centos:latest cat /etc/os-release"
                     }
                 }
-                stage('test2') {
-                    steps {
-                        echo 'Hello World2'
-                    }
-                }
-            }
-        }
-        stage('Coucou') {
-            steps {
-                echo 'Coucou World'
             }
         }
     }
