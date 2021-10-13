@@ -1,28 +1,26 @@
 pipeline {
-    agent any
+    agent none
 
     stages {
         stage('build_packages') {
             parallel {
-                stage('build_x86_64') {
+                stage('build_x86_64_packages_RedHat_8') {
                     agent {
-                        label "gabriel"
+                        label "x86_64"
                     }
                     steps {
                         sh "podman pull docker.io/rockylinux/rockylinux:8"
-                        sh '''
-                            cat << EFO > Dockerfile
-                            FROM docker.io/rockylinux/rockylinux:8
-                            RUN dnf install 'dnf-command(config-manager)'
-                            RUN dnf install make rpm-build genisoimage xz xz-devel automake autoconf python36 bzip2-devel openssl-devel zlib-devel readline-devel pam-devel perl-ExtUtils-MakeMaker grub2-tools-extra grub2-efi-x64-modules gcc mariadb mariadb-devel dnf-plugins-core curl-devel net-snmp-devel -y
-                            RUN dnf config-manager --set-enabled PowerTools
-                            RUN dnf install freeipmi-devel -y
-                            RUN dnf groupinstall 'Development Tools' -y
-                            RUN 
-                            EOF
-                        '''
-                        sh "podman images"
-                        sh "podman run -it centos:latest cat /etc/os-release"
+                        sh "podman build --tag rockylinux_8_build -f packages_build/dockerfile_rockylinux"
+                        sh "podman run -it --rm -v /nfs/el8:/root/rpmbuild rockylinux_8_build 1 RedHat 8"
+                        sh "podman run -it --rm -v /nfs/el8:/root/rpmbuild rockylinux_8_build 2 RedHat 8"
+                        sh "podman run -it --rm -v /nfs/el8:/root/rpmbuild rockylinux_8_build 3 RedHat 8"
+                        sh "podman run -it --rm -v /nfs/el8:/root/rpmbuild rockylinux_8_build 4 RedHat 8"
+                        sh "podman run -it --rm -v /nfs/el8:/root/rpmbuild rockylinux_8_build 5 RedHat 8"
+                        sh "podman run -it --rm -v /nfs/el8:/root/rpmbuild rockylinux_8_build 8 RedHat 8"
+                        sh "podman run -it --rm -v /nfs/el8:/root/rpmbuild rockylinux_8_build 10 RedHat 8"
+                        sh "podman run -it --rm -v /nfs/el8:/root/rpmbuild rockylinux_8_build 14 RedHat 8"
+                        sh "podman run -it --rm -v /nfs/el8:/root/rpmbuild rockylinux_8_build 15 RedHat 8"
+                        sh "podman run -it --rm -v /nfs/el8:/root/rpmbuild rockylinux_8_build 16 RedHat 8"
                     }
                 }
             }
