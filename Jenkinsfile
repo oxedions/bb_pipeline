@@ -10,7 +10,7 @@ pipeline {
                     }
                     steps {
                         sh "podman pull docker.io/rockylinux/rockylinux:8"
-                        sh "podman build --tag rockylinux_8_build -f packages_build/dockerfile_rockylinux"
+                        sh "podman build --no-cache --tag rockylinux_8_build -f packages_build/dockerfile_rockylinux"
                         sh "podman run -it --rm -v /nfs/el8:/root/rpmbuild rockylinux_8_build 1 RedHat 8"
                         sh "podman run -it --rm -v /nfs/el8:/root/rpmbuild rockylinux_8_build 2 RedHat 8"
                         sh "podman run -it --rm -v /nfs/el8:/root/rpmbuild rockylinux_8_build 3 RedHat 8"
