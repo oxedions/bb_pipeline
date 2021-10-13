@@ -17,7 +17,7 @@ pipeline {
                         sh "podman run -it --rm -v /nfs/el8:/root/rpmbuild rockylinux_8_build 4 RedHat 8"
                         sh "podman run -it --rm -v /nfs/el8:/root/rpmbuild rockylinux_8_build 5 RedHat 8"
                         sh "podman run -it --rm -v /nfs/el8:/root/rpmbuild rockylinux_8_build 8 RedHat 8"
-                        sh "podman run -it --rm -v /nfs/el8:/root/rpmbuild rockylinux_8_build 10 RedHat 8"
+                        sh "podman run -it --rm -v /nfs/el8:/root/rpmbuild rockylinux_8_build 10 RedHat 8 1.4"
                         sh "podman run -it --rm -v /nfs/el8:/root/rpmbuild rockylinux_8_build 14 RedHat 8"
                         sh "podman run -it --rm -v /nfs/el8:/root/rpmbuild rockylinux_8_build 15 RedHat 8"
                         sh "podman run -it --rm -v /nfs/el8:/root/rpmbuild rockylinux_8_build 16 RedHat 8"
