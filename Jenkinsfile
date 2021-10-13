@@ -22,6 +22,11 @@ pipeline {
                         sh "podman run -it --rm -v /nfs/el8:/root/rpmbuild rockylinux_8_build 15 RedHat 8"
                         sh "podman run -it --rm -v /nfs/el8:/root/rpmbuild rockylinux_8_build 16 RedHat 8"
                     }
+                    post {
+                        always {
+                            sh "podman rmi rockylinux_8_build"
+                        }
+                    }
                 }
             }
         }
