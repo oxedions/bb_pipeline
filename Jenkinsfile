@@ -24,7 +24,7 @@ pipeline {
                     }
                     post {
                         always {
-                            sh "podman rmi rockylinux_8_build"
+                            sh "echo podman rmi rockylinux_8_build"
                         }
                     }
                 }
