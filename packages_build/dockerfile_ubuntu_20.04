@@ -1,0 +1,7 @@
+FROM docker.io/ubuntu:20.04
+RUN apt-get update
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y git systemd-sysv systemd
+RUN mkdir /infra
+RUN git clone https://github.com/oxedions/infrastructure.git /infra
+RUN chmod +x /infra/auto_builder.sh
+CMD [ "/lib/systemd/systemd" ]

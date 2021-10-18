@@ -1,0 +1,6 @@
+FROM docker.io/opensuse/leap:15.3
+RUN zypper -n install git systemd-sysvinit systemd-network
+RUN mkdir /infra
+RUN git clone https://github.com/oxedions/infrastructure.git /infra
+RUN chmod +x /infra/auto_builder.sh
+CMD [ "/sbin/init" ]
