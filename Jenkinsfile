@@ -10,7 +10,7 @@ pipeline {
                     }
                     steps {
                         sh "podman pull docker.io/ubuntu:20.04"
-                        sh "podman build --no-cache --tag ubuntu_20.04_build -f packages_build/dockerfile_rockylinux"
+                        sh "podman build --no-cache --tag ubuntu_20.04_build -f packages_build/dockerfile_ubuntu_20.04"
                         sh "podman run -it --rm -v /nfs/ubuntu2004:/root/debbuild ubuntu_20.04_build 1 Ubuntu 20.04"
                         sh "podman run -it --rm -v /nfs/ubuntu2004:/root/debbuild ubuntu_20.04_build 2 Ubuntu 20.04"
                         sh "podman run -it --rm -v /nfs/ubuntu2004:/root/debbuild ubuntu_20.04_build 3 Ubuntu 20.04"
