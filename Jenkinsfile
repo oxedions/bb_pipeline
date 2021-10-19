@@ -9,9 +9,9 @@ pipeline {
                         label "x86_64"
                     }
                     steps {
-                        sh "podman run -it --rm -v /nfs/:/nfs/ rockylinux/rockylinux:8 /bin/bash -c '
-                        echo coucou;
-                        echo tutu;
+                        sh "podman run -it --rm -v /nfs/:/nfs/ rockylinux/rockylinux:8 /bin/bash -c ' \
+                        echo coucou; \
+                        echo tutu; \
                         '"
                     }
                 }
