@@ -9,10 +9,20 @@ pipeline {
                         label "x86_64"
                     }
                     steps {
-                        sh "podman run -it --rm -v /nfs/:/nfs/ rockylinux/rockylinux:8 /bin/bash -c ' \
-                        echo coucou; \
-                        echo tutu; \
-                        '"
+                        sh '''
+                            podman run -it --rm -v /nfs/:/nfs/ rockylinux/rockylinux:8 /bin/bash -c ' \
+                            mkdir -p /nfs/repositories/el8/x86_64/; \
+                            mkdir /tmp/bbrepo/; \
+                            cat << EOF > /tmp/bbrepo/bluebanquise.repo
+                            [bluebanquise]
+                            name = bluebanquise
+                            baseurl = https://bluebanquise.com/repository/releases/latest/el8/x86_64/bluebanquise/
+                            gpgcheck = 0
+                            enabled = 1
+                            EOF; \
+                            echo tutu; \
+                            '
+                        '''
                     }
                 }
             }
