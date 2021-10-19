@@ -46,7 +46,7 @@ pipeline {
                         sh "podman run -it --rm -v /nfs/el8:/root/rpmbuild rockylinux_8_build 16 RedHat 8"
                         // Check packages can be installed
                         //sh "podman run -it --rm -v /nfs/el8:/root/rpmbuild rockylinux/rockylinux:8 /bin/bash -c 'dnf install epel-release -y; dnf install dnf-plugins-core -y; dnf config-manager --set-enabled powertools; dnf install -y /root/rpmbuild/RPMS/noarch/*.rpm /root/rpmbuild/RPMS/x86_64/*.rpm'"
-                        sh "podman run -it --rm -v /nfs/el8:/root/rpmbuild rockylinux/rockylinux:8 /bin/bash -c 'git clone https://github.com/oxedions/infrastructure.git . ; chmod +x /infra/auto_builder.sh ; auto_builder.sh 0 RedHat 8 ; dnf install -y /root/rpmbuild/RPMS/noarch/*.rpm /root/rpmbuild/RPMS/x86_64/*.rpm'"
+                        sh "podman run -it --rm -v /nfs/el8:/root/rpmbuild rockylinux/rockylinux:8 /bin/bash -c 'dnf install -y git ; git clone https://github.com/oxedions/infrastructure.git . ; chmod +x /infra/auto_builder.sh ; auto_builder.sh 0 RedHat 8 ; dnf install -y /root/rpmbuild/RPMS/noarch/*.rpm /root/rpmbuild/RPMS/x86_64/*.rpm'"
 
                     }
                     post {
@@ -62,13 +62,13 @@ pipeline {
                     steps {
                         sh "podman pull docker.io/centos:7"
                         sh "podman build --no-cache --tag centos_7_build -f packages_build/dockerfile_centos_7"
-                        sh "podman run -it --rm -v /nfs/el7:/root/rpmbuild centos_7_build 1 RedHat 8"
-                        sh "podman run -it --rm -v /nfs/el7:/root/rpmbuild centos_7_build 2 RedHat 8"
-                        sh "podman run -it --rm -v /nfs/el7:/root/rpmbuild centos_7_build 3 RedHat 8"
-                        sh "podman run -it --rm -v /nfs/el7:/root/rpmbuild centos_7_build 4 RedHat 8"
-                        sh "podman run -it --rm -v /nfs/el7:/root/rpmbuild centos_7_build 5 RedHat 8"
-                        sh "podman run -it --rm -v /nfs/el7:/root/rpmbuild centos_7_build 8 RedHat 8"
-                        sh "podman run -it --rm -v /nfs/el7:/root/rpmbuild centos_7_build 10 RedHat 8 1.4"
+                        sh "podman run -it --rm -v /nfs/el7:/root/rpmbuild centos_7_build 1 RedHat 7"
+                        sh "podman run -it --rm -v /nfs/el7:/root/rpmbuild centos_7_build 2 RedHat 7"
+                        sh "podman run -it --rm -v /nfs/el7:/root/rpmbuild centos_7_build 3 RedHat 7"
+                        sh "podman run -it --rm -v /nfs/el7:/root/rpmbuild centos_7_build 4 RedHat 7"
+                        sh "podman run -it --rm -v /nfs/el7:/root/rpmbuild centos_7_build 5 RedHat 7"
+                        sh "podman run -it --rm -v /nfs/el7:/root/rpmbuild centos_7_build 8 RedHat 7"
+                        sh "podman run -it --rm -v /nfs/el7:/root/rpmbuild centos_7_build 10 RedHat 7 1.4"
                     }
                     post {
                         always {
