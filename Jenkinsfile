@@ -51,7 +51,7 @@ pipeline {
                             echo "deb [trusted=yes] http://bluebanquise.com/repository/releases/1.5-dev/ubuntu_2004/x86_64/bluebanquise/ ./" > bluebanquise.list ; \
                             apt-mirror bluebanquise.list ; \
                             cp -a /var/spool/apt-mirror/mirror/bluebanquise.com/repository/releases/1.5-dev/ubuntu_2004/x86_64/bluebanquise/ /nfs/repositories/ubuntu2004/x86_64/bluebanquise/ ; \
-                            rsync -a -v --ignore-existing /nfs/build/ubuntu2004/x86_64/* /nfs/repositories/el7/x86_64/bluebanquise/packages/ ; \
+                            rsync -a -v --ignore-existing /nfs/build/ubuntu2004/x86_64/* /nfs/repositories/ubuntu2004/x86_64/bluebanquise/packages/ ; \
                             dpkg-scanpackages /nfs/repositories/ubuntu2004/x86_64/bluebanquise/ /dev/null | gzip -9c > /nfs/repositories/ubuntu2004/x86_64/bluebanquise/Packages.gz ; \
                             '
                         '''
