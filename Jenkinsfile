@@ -11,6 +11,7 @@ pipeline {
                     steps {
                         sh '''
                             podman run -it --rm -v /nfs/:/nfs/ rockylinux/rockylinux:8 /bin/bash -c ' \
+                            dnf install -y wget yum-utils createrepo; \
                             mkdir -p /nfs/repositories/el8/x86_64/; \
                             wget http://bluebanquise.com/repository/releases/1.5-dev/el8/x86_64/bluebanquise/bluebanquise.repo -P /etc/yum.repo.d/ ;\
                             reposync --repoid=bluebanquise -p /nfs/repositories/el8/x86_64/
