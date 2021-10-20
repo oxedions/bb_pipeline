@@ -11,10 +11,10 @@ pipeline {
                     steps {
                         sh '''
                             podman run -it --rm -v /nfs/:/nfs/ rockylinux/rockylinux:8 /bin/bash -c ' \
-                            dnf install -y wget yum-utils createrepo ; \
+                            dnf install -y wget yum-utils createrepo rsync ; \
                             mkdir -p /nfs/repositories/el8/x86_64/ ; \
                             wget http://bluebanquise.com/repository/releases/1.5-dev/el8/x86_64/bluebanquise/bluebanquise.repo -P /etc/yum.repo.d/ ; \
-                            reposync --repoid=bluebanquise -p /nfs/repositories/el8/x86_64/ ; \
+                            reposync -c /etc/yum.repos.d/bluebanquise.repo --repoid=bluebanquise -p /nfs/repositories/el8/x86_64/ ; \
                             rsync -a -v --ignore-existing /nfs/build/x86_64/el8/* /nfs/repositories/el8/x86_64/packages/ ; \
                             createrepo /nfs/repositories/el8/x86_64/ ; \
                             exit 2 ; 
