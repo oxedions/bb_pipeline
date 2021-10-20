@@ -15,7 +15,7 @@ pipeline {
                             mkdir -p /nfs/repositories/el8/x86_64/ ; \
                             wget http://bluebanquise.com/repository/releases/1.5-dev/el8/x86_64/bluebanquise/bluebanquise.repo -P /etc/yum.repos.d/ ; \
                             reposync -c /etc/yum.repos.d/bluebanquise.repo --repoid=bluebanquise -p /nfs/repositories/el8/x86_64/ ; \
-                            rsync -a -v --ignore-existing /nfs/build/x86_64/el8/* /nfs/repositories/el8/x86_64/packages/ ; \
+                            rsync -a -v --ignore-existing /nfs/build/el8/x86_64/* /nfs/repositories/el8/x86_64/bluebanquise/packages/ ; \
                             createrepo /nfs/repositories/el8/x86_64/ ; \
                             exit 2 ; 
                             '
