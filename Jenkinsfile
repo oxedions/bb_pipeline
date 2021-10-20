@@ -2,6 +2,38 @@ pipeline {
     agent none
 
     stages {
+        stage('dev') {
+            parallel {
+                stage('build_arm64_packages_RedHat_8') {
+                    agent {
+                        label "arm64"
+                    }
+                    steps { // ARM64 !!!!!!
+                        sh "podman pull docker.io/rockylinux/rockylinux:8"
+                        sh "podman build --no-cache --tag rockylinux_8_build -f packages_build/dockerfile_rockylinux"
+                        sh "podman run -it --rm -v /nfs/build/el8/arm64:/root/rpmbuild/RPMS rockylinux_8_build 1 RedHat 8"
+                        ////sh "podman run -it --rm -v /nfs/build/el8/x86_64:/root/rpmbuild/RPMS rockylinux_8_build 2 RedHat 8"
+                        ////sh "podman run -it --rm -v /nfs/build/el8/x86_64:/root/rpmbuild/RPMS rockylinux_8_build 3 RedHat 8"
+                        ////sh "podman run -it --rm -v /nfs/build/el8/x86_64:/root/rpmbuild/RPMS rockylinux_8_build 4 RedHat 8"
+                        ////sh "podman run -it --rm -v /nfs/build/el8/x86_64:/root/rpmbuild/RPMS rockylinux_8_build 5 RedHat 8"
+                        sh "podman run -it --rm -v /nfs/build/el8/arm64:/root/rpmbuild/RPMS rockylinux_8_build 8 RedHat 8"
+                        //sh "podman run -it --rm -v /nfs/build/el8/x86_64:/root/rpmbuild/RPMS rockylinux_8_build 10 RedHat 8 1.4"
+                        // Delayed to 1.6 sh "podman run -it --rm -v /nfs/build/el8/x86_64:/root/rpmbuild/RPMS rockylinux_8_build 14 RedHat 8"
+                        ////sh "podman run -it --rm -v /nfs/build/el8/x86_64:/root/rpmbuild/RPMS rockylinux_8_build 15 RedHat 8"
+                        ////sh "podman run -it --rm -v /nfs/build/el8/x86_64:/root/rpmbuild/RPMS rockylinux_8_build 16 RedHat 8"
+                        // Check packages can be installed
+                        //sh "podman run -it --rm -v /nfs/build/el8/x86_64:/root/rpmbuild/RPMS rockylinux/rockylinux:8 /bin/bash -c 'dnf install epel-release -y; dnf install dnf-plugins-core -y; dnf config-manager --set-enabled powertools; dnf install -y /root/rpmbuild/RPMS/noarch/*.rpm /root/rpmbuild/RPMS/x86_64/*.rpm'"
+                        //sh "podman run -it --rm -v /nfs/build/el8/x86_64:/root/rpmbuild/RPMS rockylinux/rockylinux:8 /bin/bash -c 'dnf install -y git ; mkdir /infra; git clone https://github.com/oxedions/infrastructure.git /infra ; chmod +x /infra/auto_builder.sh ; auto_builder.sh 0 RedHat 8 ; dnf install -y /root/rpmbuild/RPMS/noarch/*.rpm /root/rpmbuild/RPMS/x86_64/*.rpm'"
+
+                    }
+                    post {
+                        always {
+                            sh "podman rmi rockylinux_8_build"
+                        }
+                    }
+                }
+            }
+        }
         stage('build_repositories') {
             parallel {
                 stage('build_x86_64_repositories_RedHat_8') {
