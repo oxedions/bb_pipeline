@@ -11,6 +11,7 @@ pipeline {
                     steps {
                         sh '''
                             podman run -it --rm -v /nfs/:/nfs/ rockylinux/rockylinux:8 /bin/bash -c ' \
+                            set -x ; \
                             dnf install -y wget yum-utils createrepo rsync ; \
                             mkdir -p /nfs/repositories/el8/x86_64/ ; \
                             wget http://bluebanquise.com/repository/releases/1.5-dev/el8/x86_64/bluebanquise/bluebanquise.repo -P /etc/yum.repos.d/ ; \
@@ -28,6 +29,7 @@ pipeline {
                     steps {
                         sh '''
                             podman run -it --rm -v /nfs/:/nfs/ centos:7 /bin/bash -c ' \
+                            set -x ; \
                             yum install -y wget yum-utils createrepo rsync ; \
                             mkdir -p /nfs/repositories/el7/x86_64/ ; \
                             wget http://bluebanquise.com/repository/releases/1.5-dev/el7/x86_64/bluebanquise/bluebanquise.repo -P /etc/yum.repos.d/ ; \
@@ -45,12 +47,13 @@ pipeline {
                     steps {
                         sh '''
                             podman run -it --rm -v /nfs/:/nfs/ ubuntu:20.04 /bin/bash -c ' \
+                            set -x ; \
                             apt-get update ; \
                             apt-get install -y wget dpkg-dev apt-mirror rsync ; \
                             mkdir -p /nfs/repositories/ubuntu2004/x86_64/bluebanquise/ ; \
                             echo "deb [trusted=yes] http://bluebanquise.com/repository/releases/1.5-dev/ubuntu_2004/x86_64/bluebanquise/ ./" > bluebanquise.list ; \
                             apt-mirror bluebanquise.list ; \
-                            cp -a /var/spool/apt-mirror/mirror/bluebanquise.com/repository/releases/1.5-dev/ubuntu_2004/x86_64/bluebanquise/ /nfs/repositories/ubuntu2004/x86_64/bluebanquise/ ; \
+                            mv /var/spool/apt-mirror/mirror/bluebanquise.com/repository/releases/1.5-dev/ubuntu_2004/x86_64/bluebanquise/* /nfs/repositories/ubuntu2004/x86_64/bluebanquise/ ; \
                             rsync -a -v --ignore-existing /nfs/build/ubuntu2004/x86_64/* /nfs/repositories/ubuntu2004/x86_64/bluebanquise/packages/ ; \
                             dpkg-scanpackages /nfs/repositories/ubuntu2004/x86_64/bluebanquise/ /dev/null | gzip -9c > /nfs/repositories/ubuntu2004/x86_64/bluebanquise/Packages.gz ; \
                             '
