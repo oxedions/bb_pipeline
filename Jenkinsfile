@@ -15,8 +15,18 @@ pipeline {
                         sh '''
                             set -x ; \
                             mv /nfs/* /dev/shm/ ; \
-                            mkdir -p /nfs/build/{el7,el8,ubuntu2004}/{x86_64,aarch64}/ ; \
-                            mkdir -p /nfs/repositories/{el7,el8,ubuntu2004}/{x86_64,aarch64}/ ; \
+                            mkdir -p /nfs/build/el7/x86_64/ ; \
+                            mkdir -p /nfs/build/el7/aarch64/ ; \
+                            mkdir -p /nfs/build/el8/x86_64/ ; \
+                            mkdir -p /nfs/build/el8/aarch64/ ; \
+                            mkdir -p /nfs/build/ubuntu2004/x86_64/ ; \
+                            mkdir -p /nfs/build/ubuntu2004/aarch64/ ; \
+                            mkdir -p /nfs/repositories/el7/x86_64/ ; \
+                            mkdir -p /nfs/repositories/el7/aarch64/ ; \
+                            mkdir -p /nfs/repositories/el8/x86_64/ ; \
+                            mkdir -p /nfs/repositories/el8/aarch64/ ; \
+                            mkdir -p /nfs/repositories/ubuntu2004/x86_64/ ; \
+                            mkdir -p /nfs/repositories/ubuntu2004/aarch64/ ; \
                         '''
                     }
                 }
