@@ -11,10 +11,9 @@ pipeline {
                     agent {
                         label "master"
                     }
-                    steps {
+                    steps { // Back and clean
                         sh '''
                             set -x ; \
-                            # In case of major error, push into memory \
                             mv /nfs/* /dev/shm/ ; \
                             mkdir -p /nfs/build/{el7,el8,ubuntu2004}/{x86_64,aarch64}/ ; \
                             mkdir -p /nfs/repositories/{el7,el8,ubuntu2004}/{x86_64,aarch64}/ ; \
@@ -129,7 +128,7 @@ pipeline {
                         sh "podman run -it --rm -v /nfs/build/ubuntu2004/x86_64:/root/debbuild/DEBS ubuntu_20.04_build 2 Ubuntu 20.04"
                         sh "podman run -it --rm -v /nfs/build/ubuntu2004/x86_64:/root/debbuild/DEBS ubuntu_20.04_build 3 Ubuntu 20.04"
                         sh "podman run -it --rm -v /nfs/build/ubuntu2004/x86_64:/root/debbuild/DEBS ubuntu_20.04_build 4 Ubuntu 20.04"
-                        sh "podman run -it --rm -v /nfs/build/ubuntu2004/x86_64:/root/debbuild/DEBS ubuntu_20.04_build 5 Ubuntu 20.04"
+                        //sh "podman run -it --rm -v /nfs/build/ubuntu2004/x86_64:/root/debbuild/DEBS ubuntu_20.04_build 5 Ubuntu 20.04"
                         sh "podman run -it --rm -v /nfs/build/ubuntu2004/x86_64:/root/debbuild/DEBS ubuntu_20.04_build 8 Ubuntu 20.04"
                         //sh "podman run -it --rm -v /nfs/build/ubuntu2004/x86_64:/root/debbuild/DEBS ubuntu_20.04_build 10 Ubuntu 20.04 1.4"
                         sh "podman run -it --rm -v /nfs/build/ubuntu2004/x86_64:/root/debbuild/DEBS ubuntu_20.04_build 12 Ubuntu 20.04"
@@ -152,7 +151,7 @@ pipeline {
                         sh "podman run -it --rm -v /nfs/build/ubuntu2004/aarch64:/root/debbuild/DEBS ubuntu_20.04_build 2 Ubuntu 20.04"
                         sh "podman run -it --rm -v /nfs/build/ubuntu2004/aarch64:/root/debbuild/DEBS ubuntu_20.04_build 3 Ubuntu 20.04"
                         sh "podman run -it --rm -v /nfs/build/ubuntu2004/aarch64:/root/debbuild/DEBS ubuntu_20.04_build 4 Ubuntu 20.04"
-                        sh "podman run -it --rm -v /nfs/build/ubuntu2004/aarch64:/root/debbuild/DEBS ubuntu_20.04_build 5 Ubuntu 20.04"
+                        //sh "podman run -it --rm -v /nfs/build/ubuntu2004/aarch64:/root/debbuild/DEBS ubuntu_20.04_build 5 Ubuntu 20.04"
                         sh "podman run -it --rm -v /nfs/build/ubuntu2004/aarch64:/root/debbuild/DEBS ubuntu_20.04_build 8 Ubuntu 20.04"
                         sh "podman run -it --rm -v /nfs/build/ubuntu2004/aarch64:/root/debbuild/DEBS ubuntu_20.04_build 12 Ubuntu 20.04"
                     }
